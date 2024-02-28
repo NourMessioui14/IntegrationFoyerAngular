@@ -1,0 +1,33 @@
+<app-nav-b></app-nav-b>
+
+<div class="container-fluid">
+    <th>
+        <button class="btn btn-primary " [routerLink]="['/bloc/addbloc']">Ajouter un Bloc</button>
+    </th>
+    <input type="text" name="search" [(ngModel)]="searchText" type="search" class="form-control" placeholder="search" style="width: 50%; margin: 10px auto ;">
+    <table class="table table-light">
+        <thead class="thead-light">
+            <tr>
+                <th>identifiant</th>
+                <th>nom</th>
+                <th>capacité</th>
+                <th>Actions</th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let b of blocs">
+                <td>{{b.idBloc}}</td>
+                <td>{{b.nomBloc}}</td>
+                <td>{{b.capacityBloc}}</td>
+                <td>
+                    <button type="submit" class="btn btn-primary custom-btn" [routerLink]="['bloc/editbloc/:id',b.idBloc]"><i class="fas fa-edit"></i> Modifier</button>
+                    <button type="button" class="btn btn-danger custom-btn" (click)="deleteBloc(b.idBloc)"><i class="fas fa-trash-alt"></i> Supprimer</button>
+                </td>
+
+            </tr>
+        </tbody>
+
+    </table>
+</div>

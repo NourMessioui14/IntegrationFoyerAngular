@@ -1,0 +1,39 @@
+<app-backoffice></app-backoffice>
+
+<div class="container">
+  <div class="row">
+      <div class="col-lg-12">
+          <div class="main-box clearfix">
+              <div class="text-end mt-4">
+                  <p-button icon="pi pi-user-plus" class="p-button-rounded p-button-success" (onClick)="navigateToAddUser()"></p-button>
+              </div>
+
+              <div class="table-responsive mt-4">
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th>Nom</th>
+                              <th>Prenom</th>
+                              <th>Email</th>
+                              <th>Password</th>
+                              <th>Age</th>
+                              <th>Adresse</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let f of listuser" class="table-row">
+                              <td class="table-cell">{{ f.nom }}</td>
+                              <td class="table-cell">{{ f.prenom }}</td>
+                              <td class="table-cell">{{ f.email }}</td>
+                              <td class="table-cell">{{ f.password }}</td>
+                              <td class="table-cell">{{ f.age }}</td>
+                              <td class="table-cell">{{ f.adresse }}</td>
+                             
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

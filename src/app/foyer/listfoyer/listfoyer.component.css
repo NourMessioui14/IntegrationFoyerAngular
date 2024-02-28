@@ -1,0 +1,35 @@
+
+/* Styles pour le bouton "Ajouter un foyer" */
+.custom-button {
+    background-color: #33cc99;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Style pour l'en-tête de la table */
+.table thead {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+/* Style pour les lignes impaires de la table */
+.table tbody tr:nth-child(odd) {
+    background-color: #f3f3f3;
+}
+
+/* Style pour les cellules du contenu */
+.table td {
+    padding: 12px;
+    vertical-align: middle;
+    border: none; /* Supprimez les bordures */
+}
+
+/* Style pour les boutons dans les cellules */
+.table .btn {
+    margin-right: 4px;
+    font-size: 14px;
+    padding: 6px 12px; /* Ajoutez un peu d'espacement */
+}

@@ -1,0 +1,31 @@
+<app-navbar-un></app-navbar-un>
+<div class="container-fluid">
+    <button class="btn btn-primary mb-2" [routerLink]="['/adduniversite']">Ajouter une Universite</button>
+    <input type="text" name="search" [(ngModel)]="searchText" class="form-control mb-2" placeholder="search">
+
+    <table class="table table-light">
+        <thead class="thead-light">
+            <tr>
+                <th>Identifiant</th>
+                <th>Nom</th>
+                <th>Adresse</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let u of universites">
+                <td>{{ u.idUniversite }}</td>
+                <td>{{ u.nomUniversite }}</td>
+                <td>{{ u.adresse }}</td>
+                <td>
+                    <button type="submit" class="btn btn-primary btn-sm" [routerLink]="['/edituniversite', u.idUniversite]">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm" (click)="deleteUniversite(u.idUniversite)">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

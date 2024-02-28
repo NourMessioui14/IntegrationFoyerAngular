@@ -1,0 +1,37 @@
+   
+<app-navbar></app-navbar>
+<div class="container">
+     <div class="row justify-content-center mt-5">
+         <div class="col-lg-6">
+             <div class="card">
+                 <div class="card-header">
+                     <h2 class="text-center">Ajouter un foyer</h2>
+                 </div>
+                 <div class="card-body">
+                     <form #addForm="ngForm" (ngSubmit)="addFoyer(addForm)">
+                         <div class="form-group">
+                             <label for="nomFoyer">Nom Foyer:</label>
+                             <input type="text" class="form-control" id="nomFoyer" name="nomFoyer" ngModel required minlength="3" #nomFoyer="ngModel">
+                             <small class="text-danger" *ngIf="nomFoyer?.errors?.['required'] && nomFoyer.touched">Le nom est requis</small>
+                             <small class="text-danger" *ngIf="nomFoyer?.errors?.['minlength'] && nomFoyer.touched">Le nom doit contenir au moins 3 caractères</small>
+                         </div>
+                         <div class="form-group">
+                             <label for="capaciteFoyer">Capacité de Foyer:</label>
+                             <input type="number" class="form-control" id="capaciteFoyer" name="capaciteFoyer" ngModel required [max]="200" minlength="1" #capaciteFoyer="ngModel">
+                             <small class="text-danger" *ngIf="capaciteFoyer?.errors?.['required'] && capaciteFoyer.touched">La capacité est requise</small>
+                             <small class="text-danger" *ngIf="capaciteFoyer?.errors?.['minlength'] && capaciteFoyer.touched">La capacité doit être d'au moins 1 chiffre</small>
+                             <small class="text-danger" *ngIf="capaciteFoyer?.errors?.['max'] && capaciteFoyer.touched">La capacité ne doit pas dépasser 200</small>
+                         </div>
+                         <div class="d-flex justify-content-center align-items-end" style="height: 10vh;">
+                             <div class="text-center">
+                                 <!-- Insérez ici votre bouton -->
+                                 <button type="submit" class="btn btn-primary custom-button" [disabled]="addForm.invalid">Soumettre</button>
+                             </div>
+                         </div>
+                         
+                     </form>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>

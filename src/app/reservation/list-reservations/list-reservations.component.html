@@ -1,0 +1,196 @@
+<app-reservnav></app-reservnav>
+
+<p-toast></p-toast>
+<div class="content-container" style="margin-top: 80px;">
+  <h2 class="title py-4">
+    Gestion Des Réservations
+    <button class="secondary-button" style="float: right" (click)="add()">
+      <span class="pi pi-plus" aria-hidden="true"></span> Ajouter une
+      réservation
+    </button>
+  </h2>
+  <p-progressBar *ngIf="reservationService.isLoading || isLoading" mode="indeterminate"[style]="{ height: '6px' }"></p-progressBar>
+
+  <div class="card p-4">
+    <p-table #dt [value]="reservationService.data" [rowHover]="true" columnResizeMode="expand" [rows]="10"
+      styleClass="p-datatable"
+      [showCurrentPageReport]="true"
+      [paginator]="true"
+      currentPageReportTemplate="{totalRecords} réservation(s)"
+      [filterDelay]="0"
+    >
+      <ng-template pTemplate="headergrouped">
+        <tr class="bg-white">
+          <th>ID</th>
+          <th>Année Universitaire</th>
+          <th>Est Valide</th>
+          <th>Etudiants</th>
+          <th>Chambre</th>
+          <th>Bloc</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-reservation>
+        <tr class="p-selectable-row">
+          <td>
+            <a (click)="setSelectedReservation(reservation)">{{
+              reservation?.id
+            }}</a>
+          </td>
+          <td>{{ reservation.anneeUniversitaire.slice(0, 4) }}</td>
+          <td>{{ reservation.estValide ? "Oui" : "Non" }}</td>
+
+          <!-- Etudiant column -->
+          <td *ngIf="reservation.etudiants.length > 0" class="etudiant-column">
+            <div *ngFor="let etudiant of reservation.etudiants">
+              <div
+                [pTooltip]="
+                  'id: ' +
+                  etudiant.id +
+                  ', Cin: ' +
+                  etudiant.cin +
+                  ', Ecole: ' +
+                  etudiant.ecole +
+                  ', Date Naissance: ' +
+                  etudiant.dateNaissance
+                "
+              >
+                {{ etudiant.nom }} {{ etudiant.prenom }}
+              </div>
+            </div>
+          </td>
+          <td *ngIf="reservation.etudiants.length === 0">Aucun étudiant</td>
+          <td>
+            <div
+              *ngIf="reservation?.chambre"
+              [pTooltip]="
+                'id: ' +
+                reservation.chambre.id +
+                ', Type: ' +
+                reservation.chambre.type
+              "
+            >
+              {{ reservation.chambre.numero }}
+            </div>
+            <div *ngIf="!reservation.chambre">Aucune chambre</div>
+          </td>
+          <td>
+            <div
+              *ngIf="reservation.chambre?.bloc"
+              [pTooltip]="
+                'id: ' +
+                reservation.chambre.bloc.id +
+                ', Capacité: ' +
+                reservation.chambre.bloc.capacite +
+                ', foyer: ' +
+                reservation.chambre.bloc.foyer
+              "
+            >
+              {{ reservation.chambre.bloc.nom }}
+            </div>
+            <div *ngIf="!reservation.chambre?.bloc">Aucun bloc</div>
+          </td>
+          <!-- Action column -->
+          <td class="button-column">
+            <!-- Edit button -->
+
+            <button pButton type="button"
+              icon="pi pi-check"
+              (click)="validate(reservation.id)"
+              [disabled]="
+                reservation.estValide ||
+                reservation.etudiants.length === 0 ||
+                reservation.chambre === null
+              "
+              class="p-button-success"
+            ></button>
+
+            <!-- <button
+              pButton
+              type="button"
+              icon="pi pi-pencil"
+              (click)="edit(reservation.id)"
+            ></button> -->
+
+            <button
+              pButton
+              type="button"
+              icon="pi pi-times"
+              (click)="cancel(reservation.etudiants[0].cin)"
+              [disabled]="
+                reservation.etudiants.length === 0 || !reservation.estValide
+              "
+              class="p-button-danger"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5">Aucune réservation trouvée.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <p-confirmDialog header="Confirmation"></p-confirmDialog>
+  </div>
+  <app-reservation-details
+    [reservation]="selectedReservation"
+  ></app-reservation-details>
+</div>
+
+<div class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3">
+        <p class="mb-4"><img src="images/logo.png" alt="Image" class="img-fluid"></p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae nemo minima qui dolor, iusto iure.</p>  
+        <p><a href="#">Learn More</a></p>
+      </div>
+      <div class="col-lg-3">
+        <h3 class="footer-heading"><span>Our Campus</span></h3>
+        <ul class="list-unstyled">
+            <li><a href="#">Acedemic</a></li>
+            <li><a href="#">News</a></li>
+            <li><a href="#">Our Interns</a></li>
+            <li><a href="#">Our Leadership</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Human Resources</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3">
+          <h3 class="footer-heading"><span>Our Courses</span></h3>
+          <ul class="list-unstyled">
+              <li><a href="#">Math</a></li>
+              <li><a href="#">Science &amp; Engineering</a></li>
+              <li><a href="#">Arts &amp; Humanities</a></li>
+              <li><a href="#">Economics &amp; Finance</a></li>
+              <li><a href="#">Business Administration</a></li>
+              <li><a href="#">Computer Science</a></li>
+          </ul>
+      </div>
+      <div class="col-lg-3">
+          <h3 class="footer-heading"><span>Contact</span></h3>
+          <ul class="list-unstyled">
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Support Community</a></li>
+              <li><a href="#">Press</a></li>
+              <li><a href="#">Share Your Story</a></li>
+              <li><a href="#">Our Supporters</a></li>
+          </ul>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="copyright">
+            <p>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
